@@ -6,10 +6,10 @@ var path = require("path");
 module.exports = function (app) {
     //Brings user to the survey page
     app.get("/survey", (request, response) => {
-        res.send(path.join("_dirname", "../public/survey.html"));
+        response.sendFile(path.join(__dirname, "../public/survey.html"));
     });
     //Brings user to the home page
-    app.get("/home", (request, response) => {
-        res.send(path.join("_dirname", "../public/home.html"));
+    app.get("/", (request, response) => {
+        response.sendFile(path.join(__dirname, "../public/home.html"));
     });
 }

@@ -1,7 +1,10 @@
 //dependencies
 var express = require("express");
-var bodyParser = require("bodyParser");
+var bodyParser = require("body-parser");
 var path = require("path");
+
+//Use express
+var app = express();
 
 //body-parser alows server to interpret data sent ot it
 app.use(bodyParser.json());
@@ -22,14 +25,11 @@ var app = express();
 
 //require routes from htmlRoutes.js and apiRoutes.js 
 var htmlRouting = require("./app/routing/htmlRoutes.js")(app);
+console.log("hello");
 var apiRouting = require("./app/routing/apiRoutes.js")(app);
-
+console.log("hello2");
 
 //initiate listener
 app.listen(port, () => {
     console.log("App listening on PORT " + port);
 });
-
-module.exports = function (app) {
-
-}

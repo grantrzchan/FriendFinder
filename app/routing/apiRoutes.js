@@ -1,11 +1,13 @@
 //Get friends variable from people.js
 var friends = require("../data/people.js");
-
+var match;
 //creating routes to get information about people currently stored as objects
 module.exports = function (app) {
     //get information
-    app.get("/api/:people", (request, response) => {
+    app.get("/api/:people", function(request, response){
+        response.json(friends);
         var people = request.params.people;
+        console.log("hello3");
         //use a switch case to figure out what to return
         switch (people) {
             case "emma":
@@ -32,7 +34,7 @@ module.exports = function (app) {
     }); // app.get() ends here
 
     //create new user information object and add it to friends
-    app.post("/api/:people", (req, res) => {
+    app.post("/api/people", (req, res) => {
         var newUser = req.body;
         console.log("newUser");
         friends.push(newUser);
@@ -54,6 +56,11 @@ module.exports = function (app) {
             } //end of jth loop
             compatArr.push(compat);
         } // end of ith loop
+
+        //Find most compatible match by finding largest array value
+        match = Math.max(...compatArr);
+        //return most compatible match from friends
+       res.send(friends[match]);
     }); // app.post() ends here
 
 
