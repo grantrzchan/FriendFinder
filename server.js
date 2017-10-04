@@ -7,7 +7,7 @@ var path = require("path");
 var app = express();
 
 //define port
-port = process.env.port || 8000;
+port = process.env.PORT || 8000;
 
 //body-parser alows server to interpret data sent ot it
 app.use(bodyParser.json());
