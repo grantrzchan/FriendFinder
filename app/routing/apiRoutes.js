@@ -5,9 +5,9 @@ var match;
 module.exports = function (app) {
     //get information
     app.get("/api/:people", function(request, response){
-        response.json(friends);
+        // response.json(friends);
         var people = request.params.people;
-        console.log("hello3");
+        // console.log("hello3");
         //use a switch case to figure out what to return
         switch (people) {
             case "emma":
@@ -34,13 +34,15 @@ module.exports = function (app) {
     }); // app.get() ends here
 
     //create new user information object and add it to friends
-    app.post("/api/people", (req, res) => {
+    app.post("/api/people", function(req, res){
+        // console.log("some post2");
         var newUser = req.body;
-        console.log("newUser");
+        // console.log(newUser);
         friends.push(newUser);
         var last = friends.length - 1;
-        res.json(friends[last]);
-
+        // res.json(friends[last]);
+        // console.log(friends[last]);
+        console.log(friends);
         //compatibility logic
         //Use division for the logic
         var compatArr = [];
@@ -48,7 +50,7 @@ module.exports = function (app) {
             //reinitialize compatibility for each friend
             var compat = 0;
             for (j = 0; j < friends[i].scores.length; j++) {
-                var firstParam = friends.scores[j] / friends[last].score[j];
+                var firstParam = friends[i].scores[j] / friends[last].score[j];
                 var secondParam = parseFloat((firstParam / 5).toFixed(1));
                 if (secondParam > 0.5) {
                     compat++;
@@ -56,10 +58,12 @@ module.exports = function (app) {
             } //end of jth loop
             compatArr.push(compat);
         } // end of ith loop
-
+        console.log(compatArr);
         //Find most compatible match by finding largest array value
         match = Math.max(...compatArr);
+        console.log(match);
         //return most compatible match from friends
+        console.log(friends[match]);
        res.send(friends[match]);
     }); // app.post() ends here
 

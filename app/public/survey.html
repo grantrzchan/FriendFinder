@@ -13,6 +13,8 @@
 	<!-- Chosen -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+	<!-- Attach survey.js -->
+	<!-- <script src="/assets/survey.js"></script> -->
 
 </head>
 <body>
@@ -116,7 +118,7 @@
 	      </div>
 	      <div class="modal-body">
 	        <h2 id="matchName"></h2>
-	        <img id="matchImg" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+	        <img id="matchImg" src="" alt="">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -139,8 +141,66 @@
       $(selector).chosen(config[selector]);
 		}
 		
+
+// Capture the form inputs 
+$("#submit").on("click", function(){
+            // Form validation for user information
+            function validateForm() {
+              var isValid = true;
+              $('.form-control').each(function(){
+                if ( $(this).val() === '' )
+                    isValid = false;
+              });
+            // Form validation for survey question entries
+              $('.chosen-select').each(function(){
+            
+                  if( $(this).val() === "")
+                      isValid = false
+              })
+              return isValid;
+						}
+						var checker = validateForm();
+            // If all required fields are filled
+            if (checker == true)
+            {
+                // Create an object for the user's data
+                var userData = {
+                    name: $("#name").val(),
+                    image: $("#photo").val(),
+                    scores: [parseInt($("#q1").val()), parseInt($("#q2").val()), parseInt($("#q3").val()), parseInt($("#q4").val()), parseInt($("#q5").val())]
+                };
+                // console.log(userData);
+    
+                // Grab the URL of the website
+                var currentURL = window.location.origin;
+    
+                // AJAX post the data to the friends API. 
+                event.preventDefault();
+                $.post("/api/people", userData, function(data){
+                    // console.log("some post");
+                    // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                    $("#matchName").text(data.name);
+                    $('#matchImg').attr("src", data.image);
+    
+                    // Show the modal with the best match 
+                    $("#resultsModal").modal('toggle');
+    
+                }).done(function() {
+                    console.log("some postxxx");
+                  })
+                  .fail(function() {
+                    console.log( "error" );
+                  });
+            }
+            else
+            {
+                alert("Please fill out all fields before submitting!");
+            }
+            
+            return false;
+        });
+
 </script>
-<script src="assets/survey.js"></script>
 
 </body>
 </html>

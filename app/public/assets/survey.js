@@ -1,3 +1,5 @@
+// jQuery
+<script src="https://code.jquery.com/jquery.js"></script>
 
 // Capture the form inputs 
 $("#submit").on("click", function(){
@@ -34,7 +36,7 @@ $("#submit").on("click", function(){
     
                 // AJAX post the data to the friends API. 
                 event.preventDefault();
-                $.post(currentURL + "/api/people", userData, function(data){
+                $.post("/api/people", userData, function(data){
                     console.log("some post");
                     // Grab the result from the AJAX post so that the best match's name and photo are displayed.
                     $("#matchName").text(data.name);
@@ -43,7 +45,12 @@ $("#submit").on("click", function(){
                     // Show the modal with the best match 
                     $("#resultsModal").modal('toggle');
     
-                });
+                }).done(function() {
+                    console.log("some post");
+                  })
+                  .fail(function() {
+                    console.log( "error" );
+                  });
             }
             else
             {

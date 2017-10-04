@@ -6,6 +6,9 @@ var path = require("path");
 //Use express
 var app = express();
 
+//define port
+port = process.env.port || 8000;
+
 //body-parser alows server to interpret data sent ot it
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -17,17 +20,14 @@ app.use(bodyParser.json({
 }));
 
 //make the public folder accessible
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'app/public')));
 
-//define port and express handle
-port = process.env.port || 8000;
-var app = express();
 
 //require routes from htmlRoutes.js and apiRoutes.js 
 var htmlRouting = require("./app/routing/htmlRoutes.js")(app);
-console.log("hello");
+// console.log("hello");
 var apiRouting = require("./app/routing/apiRoutes.js")(app);
-console.log("hello2");
+// console.log("hello2");
 
 //initiate listener
 app.listen(port, () => {
